@@ -30,21 +30,26 @@ function createGalleryMarkup(galleryItems) {
 function openOriginalImg(evt) {
     evt.preventDefault();
 
-    const instance = basicLightbox.create(`
-    <img src = '${evt.target.dataset.source}'/>`,
-        {
-            onShow: (instance) => {
-                document.addEventListener("keydown", closeModaleEsc);
+    if (evt.target.classList.contains('gallery__image')) {
+        const instance = basicLightbox.create(`
+            <img src = '${evt.target.dataset.source}'/>`,
+            {
+                onShow: (instance) => {
+                    document.addEventListener("keydown", closeModaleEsc);
+                },
+                onClose: (instance) => {
+                    document.removeEventListener('keydown', closeModaleEsc);
+                }
             }
-        });
+        );
     
-    instance.show();
+        instance.show();
 
-    function closeModaleEsc(evt) {
-        if (evt.code === 'Escape') {
-            instance.close();
-        }
+        function closeModaleEsc(evt) {
+            if (evt.code === 'Escape') {
+                instance.close();
+            }
+        };
     };
 }
-
 
